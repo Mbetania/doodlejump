@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+  padding: 0; }
+
 .doodler {
   background-color: rgba(164, 7, 44, 0.904);
   width: 60px;
@@ -5,15 +9,14 @@
   position: absolute; }
 
 .grid {
-  width: 400px;
-  height: 600px;
+  width: 100%;
+  height: 100vh;
   background-color: yellow;
   position: relative;
   font-size: 100px;
   text-align: center; }
 
 .platform {
-  width: 85px;
   height: 15px;
   background-color: green;
   position: absolute; }

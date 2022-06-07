@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     const doodler = document.createElement('div')
     let strength = 4
-    let doodlerLeftSpace = 40
+    let doodlerLeftSpace = 900
     let startPoint = 150
     let doodlerBottomSpace = startPoint
     let isGameOver = false
-    let platformCount = 5
+    let platformCount = 8
     let platforms = []
     let upTimerId
     let downTimerId
@@ -16,7 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let leftTimerId
     let rightTimerId;
     let score = 0
+    let acceleration = 10
 
+    function randomWidth(){
+        return `${(Math.random() * 15)+1}rem`
+    }
 
     function createDoodler() {
         grid.appendChild(doodler)
@@ -29,13 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     class Platform {
         constructor(newPlatBottom){
             this.bottom = newPlatBottom
-            this.left = Math.random() * 315
+            this.left = Math.random() * 1000
             this.visual = document.createElement('div')
 
             const visual = this.visual
             visual.classList.add('platform')
             visual.style.left = this.left + 'px'
             visual.style.bottom = this.bottom + 'px'
+            visual.style.width = randomWidth()
             grid.appendChild(visual)
         }
     }
@@ -62,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     firstPlatform.classList.remove('platform')
                     platforms.shift()
                     score++
-                    console.log(platforms)
                     let newPlatform = new Platform(600)
                     platforms.push(newPlatform)
                 }
@@ -74,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(downTimerId)
         isJumping = true
         upTimerId = setInterval(function (){
-            doodlerBottomSpace += 10
+            doodlerBottomSpace += acceleration
             doodler.style.bottom = doodlerBottomSpace + 'px'
             if (doodlerBottomSpace > startPoint + 200){
                 fall()
@@ -86,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(upTimerId)
         isJumping = false
         downTimerId = setInterval(function (){
-            doodlerBottomSpace -=5
+            doodlerBottomSpace -=2.5
             doodler.style.bottom = doodlerBottomSpace + 'px'
             if (doodlerBottomSpace <= 0) {
                 gameOver()
@@ -96,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     (doodlerBottomSpace >= platform.bottom) &&
                     (doodlerBottomSpace <= platform.bottom + 15) &&
                     ((doodlerLeftSpace + 60) >= platform.left) &&
-                    (doodlerLeftSpace <= (platform.left + 85)) &&
-                    !isJumping
+                    (doodlerLeftSpace <= (platform.left + 85)) 
+                    // !isJumping
                 ) {
                     console.log('landed')
                     startPoint = doodlerBottomSpace
@@ -131,6 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
             moveStraight()
         } if(e.key === 'l') {
             strength += .3
+        // }if (e.key === 'Enter' && isGameOver === true){
+        //     isGameOver= false
+            start()
         }
     }
 
@@ -142,10 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
         isGoingLeft = true
         leftTimerId = setInterval(function () {
             if (doodlerLeftSpace >= 0) {
-                doodlerLeftSpace -=5
+                doodlerLeftSpace -=0.5
                 doodler.style.left = doodlerLeftSpace + 'px'
             } else moveRight()
-        },30)
+        },2)
     }
 
     function moveRight() {
@@ -155,11 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         isGoingRight = true
         rightTimerId = setInterval(function () {
-            if (doodlerLeftSpace <= 340) {
-                doodlerLeftSpace += 5
+            if (doodlerLeftSpace <= 940) {
+                doodlerLeftSpace += 0.5
                 doodler.style.left = doodlerLeftSpace + 'px'
             } else moveLeft()
-        },30)
+        },2)
     }
 
     function moveStraight() {
