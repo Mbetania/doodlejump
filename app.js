@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     const doodler = document.createElement('div')
-    let gravity = 4
+    let strength = 4
     let doodlerLeftSpace = 40
     let startPoint = 150
     let doodlerBottomSpace = startPoint
@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let isGoingLeft = false
     let isGoingRight = false
     let leftTimerId
-    let rightTimerId
+    let rightTimerId;
     let score = 0
+
 
     function createDoodler() {
         grid.appendChild(doodler)
@@ -52,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function movePlatforms() {
         if (doodlerBottomSpace >200){
             platforms.forEach(platform =>{
-                platform.bottom -= gravity
+                platform.bottom -= strength
                 let visual = platform.visual
                 visual.style.bottom = platform.bottom + 'px'
 
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } if(e.key === 'ArrowUp'){
             moveStraight()
         } if(e.key === 'l') {
-            gravity += .3
+            strength += .3
         }
     }
 
